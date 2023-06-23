@@ -166,7 +166,7 @@ class Proxy:
 
     def make_request(self, function, payload, encrypt=False, key=None):
         #print(' '.join([hex(ord(ch)) for ch in c.framedata]))
-	self.request.sequencenumber = (self.request.sequencenumber % 99) + 1
+        self.request.sequencenumber = (self.request.sequencenumber % 99) + 1
         self.request.payload = payload
         self.request.function = function
         self.request.encrypted = encrypt
