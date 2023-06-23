@@ -1,14 +1,18 @@
 {
     "config": {
-      "fields": {
-        "serial": {
-          "label": "Enter Serial"
-        },
-        "password": {
-          "label": "Enter Password"
-        },
-        "ip_address": {
-          "label": "Enter IP (optional)"
+      "step": {
+        "user": {
+          "fields": {
+            "serial": {
+              "label": "Enter Serial"
+            },
+            "password": {
+              "label": "Enter Password"
+            },
+            "ip_address": {
+              "label": "Enter IP (optional)"
+            }
+          }
         }
       }
     }
