@@ -11,7 +11,7 @@ of 2 hours. It is only possible to start and stop the boiler in equal hours (e.g
 
 This can be adressed by adding an external switch/relay or by letting the Home Assistant communicate with the boiler directly. 
 
-##Prerequsites
+## Prerequsites
 
 You'll need the boiler serial and the boiler passord (should be printet on a boiler label). You're using the same seriel/password when setting up your App, or logging in to StokerCloud.
 
