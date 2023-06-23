@@ -46,7 +46,7 @@ class Proxy:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         if addr == '<broadcast>':
             s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        s.settimeout(0.5)
+        s.settimeout(1.5)
         self.s = s
         request = Request_frame()
         self.response = Response_frame(request)
@@ -152,7 +152,7 @@ class Proxy:
         elif len(d) == 3 and d[1] in self.settings and value is not None :
             self.s.settimeout(5)
             response = self.make_request(2, '.'.join(d[1:3]) + '=' + value, encrypt=True)
-            self.s.settimeout(1.3)
+            self.s.settimeout(5.3)
             if response.status == 0:
                 return ('OK',)
             else:
@@ -166,7 +166,7 @@ class Proxy:
 
     def make_request(self, function, payload, encrypt=False, key=None):
         #print(' '.join([hex(ord(ch)) for ch in c.framedata]))
-        self.request.sequencenumber += 1
+	self.request.sequencenumber = (self.request.sequencenumber % 99) + 1
         self.request.payload = payload
         self.request.function = function
         self.request.encrypted = encrypt
