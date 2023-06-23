@@ -20,6 +20,10 @@ from __future__ import print_function
 import time
 import random
 from random import SystemRandom
+import logging
+from Crypto.Hash import SHA
+
+logger = logging.getLogger(__name__)
 
 START = b'\x02'
 END = b'\x04'
@@ -29,8 +33,9 @@ FUNCTION_CODES = (0,1,2,3,4,5,6,7,8,9,10,11)
 class Request_frame(object):
     def __init__(self):
         self.REQUEST_HEADER_SIZE = 52
-        self.appid = ''.join([random.choice('abcdefghijk') for a in range(10)])
+        self.appid = 'NBEConnect_' #must be 10 characters wide
         self.controllerid = ''.join([random.choice('abcdefghijk') for a in range(10)])
+        
         self.encrypted = False
         self.sequencenumber = 1
         self.pincode = '0123456789'
@@ -65,8 +70,9 @@ class Request_frame(object):
                 h += '0000000000'.encode('ascii')
 
             h += ('%10s'%int(time.time())).encode('ascii')
-            h += ('%4s'%'pad ').encode('ascii')
-            h += ('%03u'%len(self.payload)).encode('ascii')
+            #h += ('%10s'%int(0)).encode('ascii')
+            h += ('%4s'%'pad ').encode('ascii') #future use
+            h += ('%03u'%len(self.payload)).encode('ascii') #payload length
             if len(self.payload) > 495:
                 raise IOError
             try:
@@ -76,19 +82,40 @@ class Request_frame(object):
             h += END;
             if self.encrypted: 
                 pad = b''.join([bytes(chr(SystemRandom().randrange(128)), 'utf-8') for x in range(64-len(h))])
+                #print(f"padlength: {len(pad)}")
                 h+=pad
                 if hasattr(self, 'xtea_key'):
                     #print ('xtea encrypt 2')
                     h = self.xtea_key.encrypt(h)
                 else:
-                    h = self.public_key.encrypt(h, None)[0]
+                    #encrypteddata = self.public_key.encrypt(h, None)[0]
+                    h = self.compatencrypt(h)
                     if len(h) != 64:
                         success = False
             self.framedata += h
             if success:
                 return self.framedata
             print ('ERROR chipertext wrong length', len(h))
+    
 
+
+    #RSA textbook encryption
+    #Inspired by https://github.com/Legrandin/pycryptodome/issues/434
+    def compatencrypt(self, message):
+        pt_int = int.from_bytes(message, 'big')
+        ct_int = pow(pt_int, self.public_key.e, self.public_key.n)
+        ct = ct_int.to_bytes(self.public_key.size_in_bytes(), 'big')
+        return ct.lstrip(b'\x00')
+    
+    #RSA textbook decryption
+    #Inspired by https://github.com/Legrandin/pycryptodome/issues/434
+    def compatdecrypt(self, message):
+        ct_int = int.from_bytes(message, 'big')
+        pt_int = pow(ct_int, self.public_key.e, self.public_key.n)
+        pt = pt_int.to_bytes(self.public_key.size_in_bytes(), 'big').lstrip(b'\x00')
+        return pt
+
+  
     def decode(self, record):
         i = 0
         self.appid = record[i:12]
@@ -169,13 +196,15 @@ class Response_frame(object):
         self.size = int(record[i:i+3])
         i += 3
         if not len(record) == self.size + self.RESPONSE_HEADER_SIZE:
-            raise IOError
+            print(f"Invalid response lenght {len(record)}")
+            #raise IOError
         #print record[i:i+self.size]
         self.payload = (record[i:i+self.size]).decode('ascii')
         #print self.payload
         i += self.size
         if not record[i] == END[0]:
-            raise IOError
+            print(f"Invalid response END")
+           # raise IOError
 
     def parse_payload(self):
         frame = self.payload

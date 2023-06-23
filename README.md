@@ -1,76 +1,21 @@
-# Test program for the NBE pellet burner UDP protocol
+# A Home Assistant Integration to monitor and control NBE pelletburners using the  UDP protocol
 
-A client that can connect to a scotte V7/V13 controller (and apparently also aduro pellet hybrid stoves), and a test server that simulates a controller box.
+This integration should be able to connect to a scotte/RTB V7/V13 controllers (and apparently also aduro pellet hybrid stoves). The software 
+is based on the NBE Test program https://github.com/motoz/nbetest by https://github.com/motoz
 
-## Client
+## Purpose
 
-<pre>
-    python client.py -h
-    usage: client.py [-h] [-v] [-a ADDRESS] [-p PASSWORD]
-                     {raw,set,get} ...
+To reduce pellet consumption. The easiest way to reduce pellet consumption is to turn the pelletboiler off. The RTB App/Stokercloud makes it 
+possible to set up weekly operating schedules for the boiler and for DHW. However it is only possible to define timeslots with a granularity 
+of 2 hours. It is only possible to start and stop the boiler in equal hours (e.g. 04:00 or 06:00). The controller does not allow you to run the boiler for e.g. 3 hours. 
 
-    positional arguments:
-      {raw,set,get}         sub-command help
-        raw
-        set                 write item value
-        get                 get all items
+This can be adressed by adding an external switch/relay or by letting the Home Assistant communicate with the boiler directly. 
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -v, --verbose
-      -a ADDRESS, --address ADDRESS
-                            controller address, autodiscovered if omitted
-      -p PASSWORD, --password PASSWORD
-      -s SERIAL, --serial SERIAL
+##Prerequsites
 
-examples:
+You'll need the boiler serial and the boiler passord (should be printet on a boiler label). You're using the same seriel/password when setting up your App, or logging in to StokerCloud.
 
-python client.py get
-settings/
-operating_data/
-advanced_data/
-consumption_data/
-event_log/
-sw_versions/
-info/
+Optionally you can choose to enter the boiler IP address. Either you need to set a fixed IP address in the boiler controller or you'll eed to make the address static with the help of your router. 
 
-python client.py get settings
-settings/boiler/
-settings/hot_water/
-settings/regulation/
-settings/weather/
-settings/oxygen/
-settings/cleaning/
-settings/hopper/
-settings/fan/
-settings/auger/
-settings/ignition/
-settings/pump/
-settings/sun/
-settings/vacuum/
-settings/misc/
-settings/alarm/
-settings/manual/
-settings/bbq_smoke/
-settings/bbq_rotation/
-settings/bbq_grill/
-settings/bbq_meat/
-settings/bbq_afterburner/
-settings/bbq_div/
+You can also choose to leave the IP-field empty. In that case, this integration will autodiscover the boiler. 
 
-python client.py -s 765432 -get settings/boiler/temp
-77
-
-python client.py -s 765432 -p 3625476689 set settings/boiler/temp 78
-OK
-
-</pre>
-
-
-## Pycrypto library
-
-install with
-
-    pip install pycrypto
-
-pyCryptoDome doesn't work
