@@ -13,7 +13,7 @@ This can be adressed by adding an external switch/relay or by letting the Home A
 
 ## Prerequsites
 
-You'll need the boiler serial and the boiler passord (should be printet on a boiler label). You're using the same seriel/password when setting up your App, or logging in to StokerCloud.
+You'll need the boiler serial and the boiler password (should be printet on a boiler label). You're using the same seriel/password when setting up your App, or logging in to StokerCloud.
 
 Optionally you can choose to enter the boiler IP address. Either you need to set a fixed IP address in the boiler controller or you'll eed to make the address static with the help of your router. 
 
