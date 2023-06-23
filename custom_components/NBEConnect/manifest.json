@@ -1,0 +1,9 @@
+{
+    "domain": "nbeconnect",
+    "name": "NBEConnect",
+    "requirements": ["pycryptodome"],
+    "config_flow": true,
+    "iot_class": "local_polling",
+    "integration_type": "device",
+    "version": "0.1.0"
+}
