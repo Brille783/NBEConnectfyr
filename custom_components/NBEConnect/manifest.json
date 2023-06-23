@@ -2,8 +2,13 @@
     "domain": "nbeconnect",
     "name": "NBEConnect",
     "requirements": ["pycryptodome"],
+    "codeowners": [
+        "@svanggaard"
+    ],
     "config_flow": true,
+    "documentation": "https://github.com/svanggaard/NBEConnect/blob/master/README.md",
+    "issue_tracker": "n/a",
     "iot_class": "local_polling",
     "integration_type": "device",
-    "version": "0.1.0"
+    "version": "0.1.1"
 }
