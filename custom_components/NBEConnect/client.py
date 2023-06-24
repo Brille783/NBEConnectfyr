@@ -18,7 +18,7 @@
 """
 from __future__ import print_function
 from argparse import ArgumentParser
-from protocol import Proxy
+from .protocol import Proxy
 
 PORT = 8483 # Controller port
 PASSWORD = '0123456789'

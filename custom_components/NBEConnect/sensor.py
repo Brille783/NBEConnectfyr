@@ -35,7 +35,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RTBSensor(dc, 'DWH Temperature', 'operating_data/sun_dhw_temp', SensorDeviceClass.TEMPERATURE),
         RTBSensor(dc, 'External Temperature', 'operating_data/external_temp', SensorDeviceClass.TEMPERATURE),
         RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', SensorDeviceClass.POWER),
-       # RTBSensor(dc, 'Total Consumption', 'operating_data/consumption_total', SensorStateClass.TOTAL_INCREASING), # state class STATE_CLASS_TOTAL_INCREASING
+        RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', SensorStateClass.TOTAL_INCREASING), # state class STATE_CLASS_TOTAL_INCREASING
     ])
     _LOGGER.info(f"Sensor.py, sensors where added!")
 
