@@ -21,7 +21,7 @@ import time
 import random
 from random import SystemRandom
 import logging
-from Crypto.Hash import SHA
+
 
 logger = logging.getLogger(__name__)
 
