@@ -22,19 +22,24 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class RTBSignalButton(CoordinatorEntity, ButtonEntity):
     """Representation of a signal switch."""
 
-    def __init__(self, coordinator, proxy, name, path, value):
+    def __init__(self, coordinator, proxy, name, path, uid, value):
         """Initialize the switch."""
         super().__init__(coordinator)
-        self._name = name;
+        self._name = name
         self._state = False
-        self.proxy = proxy;
-        self._path = path;
-        self._value = value;
+        self.proxy = proxy
+        self._path = path
+        self._value = value
+        self.uid = uid
 
     @property
     def name(self):
         """Return the name of the switch."""
         return self._name
+    
+    @property
+    def unique_id(self):
+        return self.uid
 
     def press(self) -> None:
         """Press the button."""
