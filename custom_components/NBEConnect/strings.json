@@ -2,18 +2,12 @@
     "config": {
       "step": {
         "user": {
-          "fields": {
-            "serial": {
-              "label": "Enter Serial"
-            },
-            "password": {
-              "label": "Enter Password"
-            },
-            "ip_address": {
-              "label": "Enter IP (optional)"
-            }
+          "description": "Enter the same Serial/password as you would when logging in to stokercloud. Or find the credentials on the boiler label.",
+          "data": {
+            "serial": "Seriel no:",
+            "password": "Password:",
+            "ip_address": "Controller IP (leave empty for auto discover" 
           }
-        }
       }
     }
 }
