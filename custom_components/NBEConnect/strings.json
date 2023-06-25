@@ -8,6 +8,7 @@
             "password": "Password:",
             "ip_address": "Controller IP (leave empty for auto discover" 
           }
+        }
       }
     }
 }
