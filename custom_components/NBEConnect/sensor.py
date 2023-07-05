@@ -31,11 +31,11 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_add_entities([
         RTBBinarySensor(dc, 'Boiler Running', 'operating_data/power_pct', 'boiler_power_pct', BinarySensorDeviceClass.HEAT),
         RTBBinarySensor(dc, 'Boiler Alarm', 'operating_data/off_on_alarm', 'boiler_state_off_on_alarm', BinarySensorDeviceClass.PROBLEM),
-        RTBSensor(dc, 'Boiler Temperature', 'operating_data/boiler_temp', 'boiler_temp', SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'DWH Temperature', 'operating_data/sun_dhw_temp', 'dhw_temp', SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'External Temperature', 'operating_data/external_temp', 'external_temp', SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', 'power_kw', SensorDeviceClass.POWER),
-        RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', 'pelletcounter', SensorStateClass.TOTAL_INCREASING), # state class STATE_CLASS_TOTAL_INCREASING
+        RTBSensor(dc, 'Boiler Temperature', 'operating_data/boiler_temp', 'boiler_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
+        RTBSensor(dc, 'DWH Temperature', 'operating_data/sun_dhw_temp', 'dhw_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
+        RTBSensor(dc, 'External Temperature', 'operating_data/external_temp', 'external_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
+        RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', 'power_kw', "kW", SensorDeviceClass.POWER),
+        RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', 'pelletcounter', "kg", SensorStateClass.TOTAL_INCREASING), # state class STATE_CLASS_TOTAL_INCREASING
     ])
     _LOGGER.info(f"Sensor.py, sensors where added!")
 
@@ -43,19 +43,25 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class RTBSensor(CoordinatorEntity, SensorEntity):
     """Representation of an RTB sensor."""
 
-    def __init__(self, coordinator, name, client_key, uid, device_class):
+    def __init__(self, coordinator, name, client_key, uid, unitofmeassurement, device_class):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self.client_key = client_key
         self._device_class = device_class
         self.sensorname = name
         self.uid = uid
+        self._unit_of_measurement = unitofmeassurement
 
     @property
     def name(self):
         """Return the name of the sensor."""
         #_LOGGER.info(f"sensor.py (name) returning \"NBE {self.sensorname}\"")
         return f"NBE {self.sensorname}"
+
+    @property
+    def unit_of_measurement(self):
+        """Return the unit of measurement of the sensor."""
+        return self._unit_of_measurement
 
     @property
     def unique_id(self):
