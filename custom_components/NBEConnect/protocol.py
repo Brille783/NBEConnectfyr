@@ -26,6 +26,9 @@ from .frames import Request_frame, Response_frame
 from os import urandom
 from random import SystemRandom, randrange
 #import xtea
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 class Proxy:
     root = ('settings', 'operating_data', 'advanced_data', 'consumption_data', 'event_log','sw_versions','info')
@@ -46,7 +49,7 @@ class Proxy:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         if addr == '<broadcast>':
             s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        s.settimeout(1.5)
+        s.settimeout(3.5)
         self.s = s
         request = Request_frame()
         self.response = Response_frame(request)
@@ -171,6 +174,7 @@ class Proxy:
         self.request.function = function
         self.request.encrypted = encrypt
         self.request.pincode = self.password
+        _LOGGER.debug(f"Making request to boiler. encrypt={encrypt}, Seqno={self.request.sequencenumber}, pw={self.request.pincode}")
         self.s.sendto(self.request.encode(), self.addr)
         data, server = self.s.recvfrom(4096)
         self.response.decode(data)
