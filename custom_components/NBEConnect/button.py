@@ -14,9 +14,9 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     proxy = hass.data[DOMAIN][config_entry.entry_id]
 
     async_add_entities([
-        RTBSignalButton(coordinator, proxy, "Start Boiler", "settings/misc/start", "1"),
-        RTBSignalButton(coordinator, proxy, "Stop Boiler", "settings/misc/stop", "1"),
-        RTBSignalButton(coordinator, proxy, "Reset Boiler Alarm", "settings/misc/reset_alarm", "1")
+        RTBSignalButton(coordinator, proxy, "Start Boiler", "settings/misc/start", "nbestart", "1"),
+        RTBSignalButton(coordinator, proxy, "Stop Boiler", "settings/misc/stop", "nbestop", "1"),
+        RTBSignalButton(coordinator, proxy, "Reset Boiler Alarm", "settings/misc/reset_alarm", "nbereset", "1")
     ])
 
 class RTBSignalButton(CoordinatorEntity, ButtonEntity):
