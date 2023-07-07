@@ -31,11 +31,12 @@ async def async_setup_entry(hass, entry, async_add_entities):
     async_add_entities([
         RTBBinarySensor(dc, 'Boiler Running', 'operating_data/power_pct', 'boiler_power_pct', BinarySensorDeviceClass.HEAT),
         RTBBinarySensor(dc, 'Boiler Alarm', 'operating_data/off_on_alarm', 'boiler_state_off_on_alarm', BinarySensorDeviceClass.PROBLEM),
-        RTBSensor(dc, 'Boiler Temperature', 'operating_data/boiler_temp', 'boiler_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'DWH Temperature', 'operating_data/sun_dhw_temp', 'dhw_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'External Temperature', 'operating_data/external_temp', 'external_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE),
-        RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', 'power_kw', "kW", SensorDeviceClass.POWER),
-        RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', 'pelletcounter', "kg", SensorStateClass.TOTAL_INCREASING), # state class STATE_CLASS_TOTAL_INCREASING
+        RTBSensor(dc, 'Boiler Temperature', 'operating_data/boiler_temp', 'boiler_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'DWH Temperature', 'operating_data/sun_dhw_temp', 'dhw_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'External Temperature', 'operating_data/external_temp', 'external_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', 'power_kw', "kW", SensorDeviceClass.POWER, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Boiler Power', 'operating_data/power_pct', 'power_pct', "%", SensorDeviceClass.POWER_FACTOR, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', 'pelletcounter', "kg", SensorDeviceClass.WEIGHT, SensorStateClass.TOTAL_INCREASING), 
     ])
     _LOGGER.info(f"Sensor.py, sensors where added!")
 
@@ -43,7 +44,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class RTBSensor(CoordinatorEntity, SensorEntity):
     """Representation of an RTB sensor."""
 
-    def __init__(self, coordinator, name, client_key, uid, unitofmeassurement, device_class):
+    def __init__(self, coordinator, name, client_key, uid, unitofmeassurement, device_class, state_class):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self.client_key = client_key
@@ -51,6 +52,7 @@ class RTBSensor(CoordinatorEntity, SensorEntity):
         self.sensorname = name
         self.uid = uid
         self._unit_of_measurement = unitofmeassurement
+        self._state_class = state_class
 
     @property
     def name(self):
@@ -78,7 +80,11 @@ class RTBSensor(CoordinatorEntity, SensorEntity):
     def device_class(self):
         """Return the device class of the sensor."""
         return self._device_class
-
+    
+    @property
+    def state_class(self):
+        """Return the state class of the sensor."""
+        return self._state_class
 
 class RTBBinarySensor(CoordinatorEntity, BinarySensorEntity):
     """Representation of an RTB binary sensor."""
