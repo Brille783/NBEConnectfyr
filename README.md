@@ -1,7 +1,6 @@
 # A Home Assistant Integration to monitor and control NBE pelletburners using the  UDP protocol
 
-This integration should be able to connect to a scotte/RTB V7/V13 controllers (and apparently also aduro pellet hybrid stoves). The software 
-is based on the NBE Test program https://github.com/motoz/nbetest by https://github.com/motoz
+This integration should be able to connect to a scotte/RTB V7/V13 controllers (and apparently also aduro pellet hybrid stoves). The software is a fork of https://github.com/svanggaard/NBEConnect that is based on the NBE Test program https://github.com/motoz/nbetest by https://github.com/motoz
 
 ## Purpose
 
