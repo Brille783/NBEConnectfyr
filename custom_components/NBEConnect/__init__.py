@@ -1,6 +1,7 @@
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.event import async_call_later
 from .const import DOMAIN, PLATFORMS
 from .rtbdata import RTBData
 from .protocol import Proxy
@@ -87,4 +88,12 @@ class RTBDataCoordinator(DataUpdateCoordinator):
             return operating_data
         except TimeoutError as e:
             logger.warning("Timeout occurred while fetching RTB data. Integration will continue without data.")
+            return None
+        except Exception as e:
+            logger.warning(f"A Error occurred while fetching RTB data. Integration will continue without data. message: {str(e)} args: {e.args}")
+            RETRY_DELAY = 60  # Retry delay in seconds
+            logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+            # Schedule a retry after a delay
+            async_call_later(self.hass, RETRY_DELAY, lambda _: self.hass.async_create_task(self._async_setup_entry()))
+            """logger.warning("A Error occurred while fetching RTB data. Integration will continue without data. message: {e.message} args: {e.args]")"""
             return None

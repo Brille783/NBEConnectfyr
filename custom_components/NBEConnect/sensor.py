@@ -37,6 +37,64 @@ async def async_setup_entry(hass, entry, async_add_entities):
         RTBSensor(dc, 'Boiler Effect', 'operating_data/power_kw', 'power_kw', "kW", SensorDeviceClass.POWER, SensorStateClass.MEASUREMENT),
         RTBSensor(dc, 'Boiler Power', 'operating_data/power_pct', 'power_pct', "%", SensorDeviceClass.POWER_FACTOR, SensorStateClass.MEASUREMENT),
         RTBSensor(dc, 'Total Consumption', 'consumption_data/counter', 'pelletcounter', "kg", SensorDeviceClass.WEIGHT, SensorStateClass.TOTAL_INCREASING), 
+        RTBSensor(dc, 'Smoke Temperature', 'operating_data/smoke_temp', 'smoke_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Return Temperature', 'operating_data/return_temp', 'return_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Shaft Temperature', 'operating_data/shaft_temp', 'shaft_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Photo Sensor', 'operating_data/photo_level', 'photo_level', "lx", SensorDeviceClass.ILLUMINANCE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'O2', 'operating_data/oxygen', 'oxygen', "%", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'O2 Taget', 'operating_data/oxygen_ref', 'oxygen_ref', "%", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Contoler Time', 'operating_data/time', 'time', "", SensorDeviceClass.DATE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'T4 Temperature', 'operating_data/t4_temp', 't4_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'T5 Temperature', 'operating_data/t5_temp', 't5_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'T6 Temperature', 'operating_data/t6_temp', 't6_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'T7 Temperature', 'operating_data/t7_temp', 't7_temp', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Distance to Pellets', 'operating_data/distance', 'distance', "cm", SensorDeviceClass.DISTANCE, SensorStateClass.MEASUREMENT),
+        #operating_data/milli_ampere
+        RTBSensor(dc, 'Flow', 'operating_data/flow1', 'flow1', "l/h", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Flow 2', 'operating_data/flow2', 'flow2', "l/h", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Flow 3', 'operating_data/flow3', 'flow3', "l/h", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Flow 4', 'operating_data/flow4', 'flow4', "l/h", "", SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Boiler Temperature Setpoint', 'operating_data/boiler_ref', 'boiler_ref', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        #operating_data/mean_out_temp
+        RTBSensor(dc, 'DWH Temperature Setpoint', 'operating_data/dhw_ref', 'dhw_ref', "\u00b0C", SensorDeviceClass.TEMPERATURE, SensorStateClass.MEASUREMENT),
+        #operating_data/forward_ref
+        #operating_data/sun2_temp=
+        #operating_data/sun_surplus_temp
+        RTBSensor(dc, 'Air Pressure', 'operating_data/pressure', 'pressure', 'bar', SensorDeviceClass.PRESSURE, SensorStateClass.MEASUREMENT),
+        RTBSensor(dc, 'Air Flow', 'operating_data/air_flow', 'air_flow', "m3/h", SensorDeviceClass.VOLUME_FLOW_RATE, SensorStateClass.MEASUREMENT),
+        #operating_data/sun_temp
+        #operating_data/house_valve_state
+        #operating_data/chill_out
+        #operating_data/sun_pumpspeed
+        #operating_data/sun_power_kw
+        #operating_data/cloud_level
+        #operating_data/forward_temp
+        #operating_data/back_pressure
+        #operating_data/t1_temp
+        #operating_data/air_quality
+        #operating_data/feed_low
+        #operating_data/feed_medium
+        #operating_data/feed_high
+        RTBSensor(dc, 'Hopper content kg', 'operating_data/content', 'content', "kg", SensorDeviceClass.WEIGHT, SensorStateClass.MEASUREMENT), 
+        #operating_data/state
+        #operating_data/substate
+        RTBBinarySensor(dc, 'Boiler Pump', 'operating_data/boiler_pump_state', 'boiler_pump_state', BinarySensorDeviceClass.RUNNING),
+        RTBBinarySensor(dc, 'Dhw Valve', 'operating_data/dhw_valve_state', 'dhw_valve_state', BinarySensorDeviceClass.RUNNING),
+        RTBBinarySensor(dc, 'House Pump', 'operating_data/house_pump_state', 'house_pump_state', BinarySensorDeviceClass.RUNNING),
+        #operating_data/sun_pump_state
+        #operating_data/sun_surplus_state
+        #operating_data/ashbox_minutes
+        #operating_data/ashbox_contact
+        RTBSensor(dc, 'Internet Uptime', 'operating_data/internet_uptime', 'internet_uptime', "%", SensorDeviceClass.POWER_FACTOR, SensorStateClass.MEASUREMENT), 
+        #RTBBinarySensor(dc, 'off_on_alarm', 'operating_data/off_on_alarm', 'off_on_alarm', BinarySensorDeviceClass.PROBLEM), 
+        RTBBinarySensor(dc, 'Contact 1', 'operating_data/contact1', 'contact1', BinarySensorDeviceClass.RUNNING),      
+        RTBBinarySensor(dc, 'Contact 2', 'operating_data/contact2', 'contact2', BinarySensorDeviceClass.RUNNING),      
+        #operating_data/dl_progress
+        #operating_data/substate_sec
+        #operating_data/corr_low
+        #operating_data/corr_medium
+        #operating_data/corr_high
+        #operating_data/ash_clean
     ])
     _LOGGER.info(f"Sensor.py, sensors where added!")
 
@@ -110,10 +168,19 @@ class RTBBinarySensor(CoordinatorEntity, BinarySensorEntity):
         s = self.coordinator.rtbdata.get(self.client_key)
         _LOGGER.debug(f"sensor.py RTBBinarySensor (is_on) value \"{s}\"")
         if "power_pct" in self.client_key:
+            _LOGGER.debug(f"sensor.py - power_pct - RTBBinarySensor (is_on) return \"{s != "0"}\"")
             return s != "0"
         if "off_on_alarm"  in self.client_key:
-            return s == "2"    
+            _LOGGER.debug(f"sensor.py - off_on_alarm - RTBBinarySensor (is_on) return \"{s == "2"}\"")
+            return s == "2"
+        """   
+        updating from this:
+        _LOGGER.debug(f"sensor.py -default- RTBBinarySensor (is_on) return \"{s == "0"}\"")
         return s == "0"
+        to make on = True and off = False
+        """
+        _LOGGER.debug(f"sensor.py -default- RTBBinarySensor (is_on) return \"{s != "0"}\"")
+        return s != "0"
     
     @property
     def unique_id(self):

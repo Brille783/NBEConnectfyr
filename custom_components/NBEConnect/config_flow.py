@@ -21,7 +21,7 @@ class NbeConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
             if not errors:
                 # Configuration is valid, create the entry
-                return self.async_create_entry(title="NBEConnect by svj", data=user_input)
+                return self.async_create_entry(title="NBEConnect by FKR", data=user_input)
         
         
         STEP_USER_DATA_SCHEMA = vol.Schema(
