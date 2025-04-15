@@ -1,6 +1,6 @@
 {
-    "domain": "nbeconnect",
-    "name": "NBEConnect",
+    "domain": "nbeconnectfyr",
+    "name": "NBEConnectfyr",
     "requirements": ["pycryptodome"],
     "codeowners": [
         "@FlemmingKrarup"
