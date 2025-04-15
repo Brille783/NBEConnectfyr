@@ -1,7 +1,7 @@
 {
-    "name": "NBEConnecte",
+    "name": "NBEConnectfyr",
     "content_in_root": false,
     "zip_release": false,
-    "filename": "custom_components/NBEConnect/manifest.json"
+    "filename": "custom_components/NBEConnectfyr/manifest.json"
   }
   
